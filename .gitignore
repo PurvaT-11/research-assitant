@@ -1,0 +1,6 @@
+research_env/
+.env
+outputs/
+__pycache__/
+*.pyc
+.DS_Store
