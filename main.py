@@ -3,7 +3,7 @@
 import os
 import json
 from dotenv import load_dotenv
-from agent import run_agent
+from app.agent import run_agent
 
 load_dotenv()
 

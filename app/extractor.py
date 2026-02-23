@@ -1,9 +1,9 @@
 
 import os
 from openai import OpenAI
-from prompts import EXTRACTION_PROMPT
+from config.prompts import EXTRACTION_PROMPT
 from dotenv import load_dotenv
-import os
+
 
 load_dotenv()
 
@@ -15,9 +15,13 @@ def extract_claims(content: str, research_question: str):
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": EXTRACTION_PROMPT},
-            {"role": "user", "content": f"Research Question:\n{research_question}\n\nContent:\n{content[:1500]}"}
+            {
+                "role": "user",
+                "content": f"Research Question:\n{research_question}\n\nContent:\n{content}"
+            }
         ],
-        response_format={"type": "json_object"}
+        response_format={"type": "json_object"},
+        max_tokens=400
     )
 
     return response.choices[0].message.content

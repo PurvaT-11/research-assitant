@@ -36,7 +36,7 @@ def score_credibility(url: str) -> float:
     score = 0.5  # base
 
     # academic journal boost
-    if any(d in url_lower for d in ACADEMIC_DOMAINS):
+    if any(d in url_lower for d in ACADEMIC):
         score += 0.35
 
     #  .edu or .gov boost
@@ -58,12 +58,23 @@ def score_credibility(url: str) -> float:
     # Clamp between 0 and 1
     return round(max(0.1, min(score, 1.0)), 3)
 
+import re
+
+import re
+
+def tokenize(text):
+    return set(re.findall(r"[a-zA-Z]+", text.lower()))
+
 def agreement_bonus(claim, all_claims):
+    words_current = tokenize(claim["claim"])
     similar = 0
+
     for c in all_claims:
         if c["claim"] != claim["claim"]:
-            if claim["claim"][:40] in c["claim"]:
-                similar += 1
-    
-    return min(similar * 0.05, 0.15)
+            words_other = tokenize(c["claim"])
+            overlap = len(words_current & words_other)
 
+            if overlap >= 4:
+                similar += 1
+
+    return min(similar * 0.05, 0.15)

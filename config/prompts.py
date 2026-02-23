@@ -13,7 +13,6 @@ Your responsibilities:
 7. Assign confidence (0-1).
 
 Rules:
-- NEVER hallucinate sources.
 - ONLY use provided content.
 - Return structured JSON.
 """
@@ -31,24 +30,22 @@ Return JSON:
 """
 
 EXTRACTION_PROMPT = """
-You are given webpage content.
-
-Extract claims relevant to the research question.
+Extract up to 4 factual claims relevant to the research question.
 
 Return JSON:
+
 {
   "claims": [
     {
-      "claim": "",
-      "evidence_snippet": "",
-      "reasoning": "",
+      "claim": "...",
+      "evidence_snippet": "...",
       "confidence": 0.0
     }
   ]
 }
 
 Rules:
-- Only use text from the content.
-- Evidence snippet must be directly copied.
-- Confidence between 0 and 1.
+- Use exact verbatim snippet from content.
+- Only include claims directly supported.
+- Keep claims concise.
 """
